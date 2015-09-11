@@ -1,0 +1,3 @@
+[submodule "src/lib/pyudev"]
+    path = src/lib/pyudev
+    url = https://github.com/pyudev/pyudev.git
