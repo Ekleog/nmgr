@@ -21,6 +21,8 @@ import re
 
 watch_udev()
 
-on(re.compile(r'^udev/net/'), lambda src, meta: print(src + ": " + str(meta)))
+@on_msg(re.compile(r'^udev/net/'))
+def show_dev(src, meta):
+    print(src + ': ' + str(meta))
 
 main_loop()

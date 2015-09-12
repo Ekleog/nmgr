@@ -34,6 +34,12 @@ def on(msg, action):
     else:
         raise ValueError("unable to detect type of " + msg)
 
+def on_msg(msg):
+    def wrap(f):
+        on(msg, f)
+        return f
+    return wrap
+
 def _call_action(action, msg, metadata):
     try:
         action(msg, metadata)
