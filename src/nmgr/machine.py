@@ -45,7 +45,7 @@ def _call_action(action, msg, metadata):
         action(msg, metadata)
     except TypeError:
         try:
-            action(msg)
+            action(metadata)
         except TypeError:
             action()
 
