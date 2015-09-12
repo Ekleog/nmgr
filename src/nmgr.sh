@@ -16,4 +16,4 @@
 # You should have received a copy of the GNU General Public License
 # along with nmgr.  If not, see <http://www.gnu.org/licenses/>.
 
-env PYTHONPATH="/opt/nmgr:/opt/nmgr/lib:$PYTHONPATH" python3 $*
+env PYTHONPATH="/opt/nmgr:/opt/nmgr/lib/pyudev:$PYTHONPATH" python3 $*
