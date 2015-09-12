@@ -24,7 +24,7 @@ def watch_udev():
     context = pyudev.Context()
 
     for device in context.list_devices():
-        broadcast("udev/" + device.subsystem + "/" + device.sys_name, ('add', device))
+        broadcast("udev/" + device.subsystem + "/" + device.sys_name + "/add", ('add', device))
 
     monitor = pyudev.Monitor.from_netlink(context)
 
