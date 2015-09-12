@@ -20,7 +20,13 @@ from . import *
 
 import pyudev
 
+_watching_udev = False
+
 def watch_udev():
+    if _watching_udev:
+        return
+    _watching_udev = True
+
     context = pyudev.Context()
 
     for device in context.list_devices():
