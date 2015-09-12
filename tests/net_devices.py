@@ -16,5 +16,11 @@
 # along with nmgr.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from .machine import *
-from .udev import *
+from nmgr import *
+import re
+
+watch_udev()
+
+on(re.compile(r'^udev/net/'), lambda meta: print(meta))
+
+main_loop()

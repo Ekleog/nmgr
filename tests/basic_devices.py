@@ -18,6 +18,8 @@
 
 from nmgr import *
 
+watch_udev()
+
 on(lambda s: True, lambda meta: print(meta))
 
 main_loop()
