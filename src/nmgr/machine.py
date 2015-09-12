@@ -34,16 +34,19 @@ def on(msg, action):
     else:
         raise ValueError("unable to detect type of " + msg)
 
-def _call_action(action, metadata):
+def _call_action(action, msg, metadata):
     try:
-        action(metadata)
+        action(msg, metadata)
     except TypeError:
-        action()
+        try:
+            action(msg)
+        except TypeError:
+            action()
 
 def _dispatch_event(msg, metadata):
     for m in _matchers:
         if m[0](msg):
-            _call_action(m[1], metadata)
+            _call_action(m[1], msg, metadata)
 
 def main_loop():
     while True:

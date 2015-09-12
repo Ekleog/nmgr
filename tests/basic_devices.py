@@ -20,6 +20,6 @@ from nmgr import *
 
 watch_udev()
 
-on(lambda s: True, lambda meta: print(meta))
+on(lambda s: True, lambda src, meta: print(src + ": " + str(meta)))
 
 main_loop()
