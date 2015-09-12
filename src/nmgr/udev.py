@@ -23,6 +23,7 @@ import pyudev
 _watching_udev = False
 
 def watch_udev():
+    global _watching_udev
     if _watching_udev:
         return
     _watching_udev = True
