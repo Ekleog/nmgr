@@ -16,13 +16,12 @@
 # along with nmgr.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from . import *
-
+import nmgr
 import pyudev
 
 _watching_udev = False
 
-def watch_udev():
+def watch():
     global _watching_udev
     if _watching_udev:
         return
@@ -31,12 +30,12 @@ def watch_udev():
     context = pyudev.Context()
 
     for device in context.list_devices():
-        broadcast("udev/" + device.subsystem + "/" + device.sys_name + "/add", ('add', device))
+        nmgr.broadcast("udev/" + device.subsystem + "/" + device.sys_name + "/add", ('add', device))
 
     monitor = pyudev.Monitor.from_netlink(context)
 
     def on_event(action, device):
-        broadcast("udev/" + device.subsystem + "/" + device.sys_name + "/" + action, (action, device))
+        nmgr.broadcast("udev/" + device.subsystem + "/" + device.sys_name + "/" + action, (action, device))
 
     observer = pyudev.MonitorObserver(monitor, on_event)
     observer.start()

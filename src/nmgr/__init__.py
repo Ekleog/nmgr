@@ -17,5 +17,5 @@
 #
 
 from .machine import *
-from .udev import *
-from .netdev import *
+import nmgr.netdev
+import nmgr.udev

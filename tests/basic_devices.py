@@ -18,7 +18,7 @@
 
 from nmgr import *
 
-watch_udev()
+udev.watch()
 
 on(lambda s: True, lambda src, meta: print(src + ": " + str(meta)))
 

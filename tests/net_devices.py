@@ -19,7 +19,8 @@
 from nmgr import *
 import re
 
-watch_netdev()
+udev.watch()
+netdev.watch()
 
 @on_msg(re.compile(r'^udev/net/'))
 def show_dev(src, meta):

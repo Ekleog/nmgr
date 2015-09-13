@@ -16,16 +16,16 @@
 # along with nmgr.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from . import *
+import nmgr
 from collections import namedtuple
 import re
 
 _NetdevMetadata = namedtuple('_NetdevMetadata', ['type', 'name', 'action'])
 
-def watch_netdev():
-    watch_udev()
+def watch():
+    nmgr.udev.watch()
 
-    @on_msg(re.compile(r'^udev/net/'))
+    @nmgr.on_msg(re.compile(r'^udev/net/'))
     def broadcast_same(msg, dev):
         (action, d) = dev
         if not d.is_initialized:
@@ -36,4 +36,4 @@ def watch_netdev():
             action = action
         )
         msg = "net/" + data.type + "/" + data.name + "/" + data.action
-        broadcast(msg, data)
+        nmgr.broadcast(msg, data)
