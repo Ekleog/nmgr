@@ -16,6 +16,24 @@
 # along with nmgr.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from .machine import *
-from .udev import *
-from .netdev import *
+from . import *
+from collections import namedtuple
+import re
+
+_NetdevMetadata = namedtuple('_NetdevMetadata', ['type', 'name', 'action'])
+
+def watch_netdev():
+    watch_udev()
+
+    @on_msg(re.compile(r'^udev/net/'))
+    def broadcast_same(msg, dev):
+        (action, d) = dev
+        if not d.is_initialized:
+            return
+        data = _NetdevMetadata(
+            type   = d.device_type if d.device_type else 'eth',
+            name   = d.sys_name,
+            action = action
+        )
+        msg = "net/" + data.type + "/" + data.name + "/" + data.action
+        broadcast(msg, data)

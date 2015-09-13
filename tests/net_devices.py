@@ -19,10 +19,15 @@
 from nmgr import *
 import re
 
-watch_udev()
+watch_netdev()
 
 @on_msg(re.compile(r'^udev/net/'))
 def show_dev(src, meta):
     print(src + ': ' + str(meta))
+
+@on_msg(re.compile(r'^net/'))
+def show_dev(src, meta):
+    print(src + ': ' + str(meta))
+
 
 main_loop()
