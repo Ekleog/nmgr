@@ -15,7 +15,12 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with nmgr.  If not, see <http://www.gnu.org/licenses/>.
+#
 
+# Install dependencies
+pip install pyudev
+
+# Install nmgr
 mkdir /opt 2> /dev/null
 rm -Rf /opt/nmgr /usr/bin/nmgr
 cp -R src /opt/nmgr
