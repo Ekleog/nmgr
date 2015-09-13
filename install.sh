@@ -18,7 +18,7 @@
 #
 
 # Install dependencies
-pip install pyudev
+pip install pyudev sh
 
 # Install nmgr
 mkdir /opt 2> /dev/null
