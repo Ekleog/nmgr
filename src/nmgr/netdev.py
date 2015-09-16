@@ -46,3 +46,8 @@ def up(dev):
     """ dev must have at least dev.type and dev.name set. Especially, it can be a _NetdevMetadata """
     sh.ip.link.set(dev.name, "up")
     _send_message(dev.type, dev.name, 'up')
+
+def down(dev):
+    """ dev must have at least dev.type and dev.name set. Especially, it can be a _NetdevMetadata """
+    sh.ip.link.set(dev.name, 'down')
+    _send_message(dev.type, dev.name, 'down')

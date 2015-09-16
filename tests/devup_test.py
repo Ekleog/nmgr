@@ -18,6 +18,7 @@
 
 from nmgr import *
 import re
+import sh
 
 netdev.watch()
 
@@ -28,6 +29,11 @@ def show_dev(src, meta):
 @on_msg(re.compile(r'^net/eth/usbeth/add'))
 def dev_up(src, meta):
     netdev.up(meta)
+
+@on_msg(re.compile(r'net/eth/usbeth/up'))
+def dev_down(src, dev):
+    sh.sleep(10)
+    netdev.down(dev)
 
 
 main_loop()
