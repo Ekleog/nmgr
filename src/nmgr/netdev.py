@@ -29,7 +29,7 @@ def _send_message(type, name, action):
         name   = name,
         action = action
     )
-    msg = "net/" + data.type + "/" + data.name + "/" + data.action
+    msg = "netdev/" + data.type + "/" + data.name + "/" + data.action
     nmgr.broadcast(msg, data)
 
 def watch():

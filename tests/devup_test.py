@@ -22,15 +22,15 @@ import sh
 
 netdev.watch()
 
-@on_msg(re.compile(r'^net/'))
+@on_msg(re.compile(r'^netdev/'))
 def show_dev(src, meta):
     print(src + ': ' + str(meta))
 
-@on_msg(re.compile(r'^net/eth/usbeth/add'))
+@on_msg(re.compile(r'^netdev/eth/usbeth/add'))
 def dev_up(src, meta):
     netdev.up(meta)
 
-@on_msg(re.compile(r'net/eth/usbeth/up'))
+@on_msg(re.compile(r'netdev/eth/usbeth/up'))
 def dev_down(src, dev):
     sh.sleep(10)
     netdev.down(dev)
