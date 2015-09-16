@@ -19,8 +19,18 @@
 import nmgr
 from collections import namedtuple
 import re
+import sh
 
 _NetdevMetadata = namedtuple('_NetdevMetadata', ['type', 'name', 'action'])
+
+def _send_message(type, name, action):
+    data = _NetdevMetadata(
+        type   = type,
+        name   = name,
+        action = action
+    )
+    msg = "net/" + data.type + "/" + data.name + "/" + data.action
+    nmgr.broadcast(msg, data)
 
 def watch():
     nmgr.udev.watch()
@@ -30,10 +40,9 @@ def watch():
         (action, d) = dev
         if not d.is_initialized:
             return
-        data = _NetdevMetadata(
-            type   = d.device_type if d.device_type else 'eth',
-            name   = d.sys_name,
-            action = action
-        )
-        msg = "net/" + data.type + "/" + data.name + "/" + data.action
-        nmgr.broadcast(msg, data)
+        _send_message(d.device_type if d.device_type else 'eth', d.sys_name, action)
+
+def up(dev):
+    """ dev must have at least dev.type and dev.name set. Especially, it can be a _NetdevMetadata """
+    sh.ip.link.set(dev.name, "up")
+    _send_message(dev.type, dev.name, 'up')
