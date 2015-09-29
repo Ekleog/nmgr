@@ -16,7 +16,25 @@
 # along with nmgr.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from .machine import *
-import nmgr.ip
-import nmgr.netdev
-import nmgr.udev
+import nmgr
+from collections import namedtuple
+import sh
+
+_IpMetadata = namedtuple('_IpMetadata', ['action', 'iface', 'ip'])
+
+def _send_message(action, iface, ip):
+    data = _IpMetadata(
+        action = action,
+        iface  = iface,
+        ip     = ip
+    )
+    msg = "ip/" + data.action + "/" + data.iface + "/" + data.ip
+    nmgr.broadcast(msg, data)
+
+def add(iface, ip):
+    sh.ip.address("add", ip, "dev", iface)
+    _send_message('add', iface, ip)
+
+def remove(iface, ip):
+    sh.ip.address("del", ip, "dev", iface)
+    _send_message('remove', iface, ip)
