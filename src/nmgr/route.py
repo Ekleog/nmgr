@@ -16,8 +16,25 @@
 # along with nmgr.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from .machine import *
-import nmgr.ip
-import nmgr.netdev
-import nmgr.route
-import nmgr.udev
+import nmgr
+from collections import namedtuple
+import sh
+
+_RouteMetadata = namedtuple('_IpMetadata', ['action', 'subnet', 'meta'])
+
+def _send_message(action, subnet, meta):
+    data = _RouteMetadata(
+        action = action,
+        subnet = subnet,
+        meta   = meta
+    )
+    msg = "route/" + data.action + "/" + data.subnet
+    nmgr.broadcast(msg, data)
+
+def add(subnet, **kwargs):
+    args = []
+    for key in kwargs:
+        args.append(key)
+        args.append(kwargs[key])
+    sh.ip.route.add(subnet, *args)
+    _send_message('add', subnet, kwargs)

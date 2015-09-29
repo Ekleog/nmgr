@@ -16,8 +16,25 @@
 # along with nmgr.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from .machine import *
-import nmgr.ip
-import nmgr.netdev
-import nmgr.route
-import nmgr.udev
+from nmgr import *
+import re
+
+netdev.watch()
+
+@on_msg(re.compile(r'.'))
+def debug(src, meta):
+    print('DEBUG: ' + src + ': ' + str(meta))
+
+@on_msg('netdev/eth/usbeth/add')
+def dev_up(src, dev):
+    netdev.up(dev)
+
+@on_msg('netdev/eth/usbeth/up')
+def add_ip(src, dev):
+    ip.add(dev.name, "192.168.1.1")
+
+@on_msg('ip/add/usbeth/192.168.1.1')
+def add_route(msg, meta):
+    route.add('192.168.1.0/24', via=meta.ip)
+
+main_loop()
